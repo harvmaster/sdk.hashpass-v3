@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import api from '../api';
 
 interface AuthTokenProps {
@@ -22,7 +22,7 @@ class AuthToken {
   isExpired() {
     console.log('Checking if token is expired')
     if (!this.access_token) return true;
-    const decoded = jwt_decode(this.access_token) as any;
+    const decoded = jwtDecode(this.access_token) as any;
     const now = Date.now() / 1000;
     console.log('Token expires at: ', decoded.exp)
     console.log('Current time: ', now)
@@ -34,15 +34,8 @@ class AuthToken {
     const token = await api.post<RefreshAccessTokenResponse>('/user/refresh', {
       refresh_token: this.refresh_token
     });
-
-
-
-    return api.post('/user/refresh', {
-      refresh_token: this.refresh_token
-    }).then(res => {
-      this.access_token = res.data.access_token;
-      return res.data.access_token;
-    });
+    this.access_token = token.access_token;
+    return token.access_token;
   }
 
   saveTokens () {
@@ -51,13 +44,14 @@ class AuthToken {
   }
 
   setAuthHeader () {
-    api.defaults.headers.common['Authorization'] = `Bearer ${this.access_token}`;
+    if (!this.access_token) return
+    api.setBearerToken(this.access_token);
   }
 
   static deleteTokens () {
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('access_token');
-    delete api.defaults.headers.common['Authorization']
+    api.clearBearerToken();
   }
 
   static loadTokens (): AuthToken | undefined {
