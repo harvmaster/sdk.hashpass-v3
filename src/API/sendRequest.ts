@@ -1,4 +1,4 @@
-import Hashpass from './'
+import Hashpass from '../'
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
@@ -45,55 +45,47 @@ export const del = async <returnType extends Object>(url: string, body: RequestB
   return await sendRequest<returnType>(url, 'DELETE', body, options);
 }
 
-export const requireAuth = () => {
-  if (Hashpass.AuthToken.isExpired()) throw new Error('Token expired');
-  const token = Hashpass.AuthToken.access_token
 
-  return {
-    post: async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-      return await post<returnType>(url, body, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${token}`
-        }
-      })
-    },
-    get: async <returnType extends Object>(url: string, options: RequestOptions): Promise<returnType> => {
-      return await get<returnType>(url, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${token}`
-        }
-      })
-    },
-    put: async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-      return await put<returnType>(url, body, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${token}`
-        }
-      })
-    },
-    delete: async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-      return await del<returnType>(url, body, {
-        ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${token}`
-        }
-      })
-    }
+class API {
+  headers: Record<string, string> = {
+    'Content-Type': 'application/json',
   }
+  baseURL: string = ''
+
+  async get<returnType extends Object>(url: string, options: RequestOptions): Promise<returnType> {
+    options.headers = { ...options.headers, ...this.headers }
+    return await sendRequest<returnType>(url, 'GET', {}, options);
+  }
+
+  async post<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
+    options.headers = { ...options.headers, ...this.headers }
+    return await sendRequest<returnType>(url, 'POST', body, options);
+  }
+
+  async put<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
+    options.headers = { ...options.headers, ...this.headers }
+    return await sendRequest<returnType>(url, 'PUT', body, options);
+  }
+
+  async delete<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
+    options.headers = { ...options.headers, ...this.headers }
+    return await sendRequest<returnType>(url, 'DELETE', body, options);
+  }
+
+  setBaseURL (url: string) {
+    this.baseURL = url;
+  }
+
+  setHeader (header: string, value: string) {
+    this.headers[header] = value;
+  }
+
+  setBearerToken (token: string) {
+    this.setHeader('Authorization', `Bearer ${token}`);
+  }
+
 }
 
+const api = new API()
 
-export default {
-  get,
-  post,
-  put,
-  delete: del,
-  requireAuth,
-}
+export default api

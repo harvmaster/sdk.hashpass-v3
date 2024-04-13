@@ -1,7 +1,9 @@
 import type { HashpassWorker } from './ServiceWorker/types'
+import type { AuthToken } from './API/Auth/AuthToken'
 
 class Hashpass {
   #serviceWorker?: HashpassWorker;
+  #AuthToken?: AuthToken;
 
   constructor() {
     this.#serviceWorker = undefined;
@@ -19,6 +21,6 @@ class Hashpass {
     return this.#serviceWorker;
   }
 
-
+  
 
 }
