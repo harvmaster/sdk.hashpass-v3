@@ -1,8 +1,13 @@
 import jwt_decode from "jwt-decode";
+import api from '../api';
 
 interface AuthTokenProps {
   access_token?: string;
   refresh_token: string;
+}
+
+type RefreshAccessTokenResponse = {
+  access_token: string;
 }
 
 class AuthToken {
@@ -26,6 +31,12 @@ class AuthToken {
 
   async refreshAccessToken (): Promise<string> {
     if (!this.refresh_token) return Promise.reject('No refresh token');
+    const token = await api.post<RefreshAccessTokenResponse>('/user/refresh', {
+      refresh_token: this.refresh_token
+    });
+
+
+
     return api.post('/user/refresh', {
       refresh_token: this.refresh_token
     }).then(res => {
