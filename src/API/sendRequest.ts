@@ -29,23 +29,6 @@ const sendRequest = async <returnType extends Object>(url: string, method: Reque
   return await res.json() as returnType;
 }
 
-export const get = async <returnType extends Object>(url: string, options: RequestOptions): Promise<returnType> => {
-  return await sendRequest<returnType>(url, 'GET', {}, options);
-}
-
-export const post = async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-  return await sendRequest<returnType>(url, 'POST', body, options);
-}
-
-export const put = async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-  return await sendRequest<returnType>(url, 'PUT', body, options);
-}
-
-export const del = async <returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> => {
-  return await sendRequest<returnType>(url, 'DELETE', body, options);
-}
-
-
 class API {
   headers: Record<string, string> = {
     'Content-Type': 'application/json',
