@@ -1,1 +1,1 @@
-export type PasswordEncodings = 'base64' | 'hex' | 'legacy'
+export type PasswordEncodings = 'base58' | 'hex' | 'legacy'
