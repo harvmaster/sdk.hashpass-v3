@@ -1,4 +1,4 @@
-import Hashpass from '../'
+import Hashpass from '..'
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE'
 
@@ -67,6 +67,9 @@ class API {
     this.setHeader('Authorization', `Bearer ${token}`);
   }
 
+  clearBearerToken () {
+    delete this.headers['Authorization'];
+  }
 }
 
 const api = new API()
