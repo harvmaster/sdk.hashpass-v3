@@ -33,24 +33,24 @@ class API {
   }
   baseURL: string = ''
 
-  async get<returnType extends Object>(url: string, options: RequestOptions): Promise<returnType> {
+  async get<returnType extends Object>(url: string, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...options.headers, ...this.headers }
     return await sendRequest<returnType>(url, 'GET', {}, options);
   }
 
-  async post<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
+  async post<returnType extends Object>(url: string, body: RequestBody = {}, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...options.headers, ...this.headers }
     return await sendRequest<returnType>(url, 'POST', body, options);
   }
 
-  async put<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
+  async put<returnType extends Object>(url: string, body: RequestBody = {}, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...options.headers, ...this.headers }
     return await sendRequest<returnType>(url, 'PUT', body, options);
   }
 
-  async delete<returnType extends Object>(url: string, body: RequestBody, options: RequestOptions): Promise<returnType> {
-    options.headers = { ...options.headers, ...this.headers }
-    return await sendRequest<returnType>(url, 'DELETE', body, options);
+  async delete<returnType extends Object>(url: string, options: RequestOptions = {}): Promise<returnType> {
+    options.headers = { ...options?.headers, ...this.headers }
+    return await sendRequest<returnType>(url, 'DELETE', {}, options);
   }
 
   setBaseURL (url: string) {
