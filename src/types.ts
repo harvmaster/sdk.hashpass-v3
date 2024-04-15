@@ -12,12 +12,12 @@ export type ServiceProps = {
 
 export type Service = {
   encrypted: false;
-  encrypt: (key?: string) => void;
+  encrypt: (key: string) => void;
 } & ServiceProps
 
 export type EncryptedService = {
   encrypted: true
-  decrypt: (key?: string) => void;
+  decrypt: (key: string) => void;
 } & ServiceProps
 
 export type ServiceNotes = {

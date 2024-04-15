@@ -1,7 +1,8 @@
 import { PasswordEncodings } from "../Crypto/types";
 import { ServiceProps, EncryptedService as EncryptedServiceI } from "../types";
 
-import Service from "./index";
+import Service from "./Service";
+import decryptNotes from "./Notes/decryptNotes";
 
 class EncryptedService implements EncryptedServiceI {
   encrypted: true;
@@ -31,8 +32,26 @@ class EncryptedService implements EncryptedServiceI {
     this.stats = service.stats;
   }
 
-  decrypt(key?: string) {
-    this.encrypted = false;
+  async decrypt(key: string): Promise<Service> {
+    const json = this.toJSON()
+
+    const decryptedNotes = await decryptNotes(json.notes, key)
+    json.notes = decryptedNotes
+
+    return new Service(json)
+  }
+
+  toJSON(): ServiceProps & { encrypted: true } {
+    return {
+      name: this.name,
+      domain: this.domain,
+      logo: this.logo,
+      notes: { ...this.notes },
+      encoding: this.encoding,
+      date_created: this.date_created,
+      stats: this.stats,
+      encrypted: this.encrypted
+    };
   }
 }
 
