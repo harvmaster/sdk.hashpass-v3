@@ -19,6 +19,10 @@ export const updateService = async (updateBody: Partial<Service>, options: Updat
       ...updateBody
     })
 
+    if (options.decrypt) {
+      
+    }
+
     return data.service
   } catch (err: any) {
     console.log(err)

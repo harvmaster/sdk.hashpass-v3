@@ -1,12 +1,14 @@
-import { decrypt } from 'src/ServiceWorker'
+import { decrypt } from '../../../Crypto/Encryption'
 
-export const decryptNotes = async (notes: Notes): Promise<Notes> => {
+import { ServiceNotes } from '../../../types'
+
+export const decryptNotes = async (notes: ServiceNotes): Promise<ServiceNotes> => {
   try {
     const unlocked = {
       username: notes.username ? (await decrypt(notes.username)).data : '',
       email: notes.email ? (await decrypt(notes.email)).data : '',
       other: notes.other ? (await decrypt(notes.other)).data : ''
-    } as Notes
+    } as ServiceNotes
 
     return unlocked
   } catch (err) {
@@ -16,7 +18,6 @@ export const decryptNotes = async (notes: Notes): Promise<Notes> => {
       email: '',
       other: ''
     }
-    throw new Error()
   }
 }
 
