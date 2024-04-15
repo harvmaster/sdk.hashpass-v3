@@ -1,5 +1,5 @@
 import type { HashpassWorker } from './ServiceWorker/types'
-import type { AuthToken } from './API/Auth/AuthToken'
+import AuthToken from './API/Auth/AuthToken'
 
 class Hashpass {
   #serviceWorker?: HashpassWorker;
