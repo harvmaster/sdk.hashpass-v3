@@ -1,6 +1,6 @@
 import { PasswordEncodings } from "./Crypto/types";
 
-export type Service = {
+export type ServiceProps = {
   name: string;
   domain?: string;
   logo?: string;
@@ -10,9 +10,15 @@ export type Service = {
   stats: ServiceStats
 }
 
-export interface EncryptedService extends Service {
+export type Service = {
+  encrypted: false;
+  encrypt: (key?: string) => void;
+} & ServiceProps
+
+export type EncryptedService = {
   encrypted: true
-}
+  decrypt: (key?: string) => void;
+} & ServiceProps
 
 export type ServiceNotes = {
   username?: string;
