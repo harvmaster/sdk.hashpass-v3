@@ -2,7 +2,7 @@ import api, { RequestOptions } from "../api";
 
 import { User } from "../types";
 
-export const getUser = async (access_token: string) => {
+export const getUser = async (access_token?: string ) => {
   const headers: RequestOptions['headers'] = {}
   if (access_token) headers['Authorization'] = `Bearer ${access_token}`
 
