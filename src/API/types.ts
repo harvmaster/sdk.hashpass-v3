@@ -1,4 +1,4 @@
-import { Service, EncryptedService } from '../types'
+import { Service, EncryptedService, EncryptedServiceProps } from '../types'
 
 export interface User {
   username: string;
@@ -29,11 +29,11 @@ export interface ServerResponse<T> {
 }
 
 export interface ServiceResponse {
-  service: EncryptedService;
+  service: EncryptedServiceProps;
 }
 
 export interface ServiceListResponse {
-  services: EncryptedService[]
+  services: EncryptedServiceProps[]
 }
 
 export interface ServiceDeleteResponse {

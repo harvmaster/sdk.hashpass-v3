@@ -1,6 +1,6 @@
 import api from '../api'
 
-import { Service, EncryptedService } from '../../types'
+import EncryptedService from '../../Service/EncryptedService'
 import { ServiceListResponse } from '../types'
 
 interface GetServicesOptions {
@@ -15,16 +15,9 @@ export const getServices = async (options: GetServicesOptions = defaultOptions) 
   try {
     const data = await api.get<ServiceListResponse>('/service')
 
-    let services: EncryptedService[] = data.services
-    if (options.decrypt) {
-      services = await Promise.all(services.map(async (service) => {
-        if (!service.notes) service.notes = {}
-        service.notes = await decryptNotes(service.notes)
-        return service
-      }))
-    }
+    const encryptedServices = data.services.map(service => new EncryptedService(service))
     
-    return services
+    return encryptedServices
   } catch (err: any) {
     console.log(err)
     if (err?.response?.status === 400) {

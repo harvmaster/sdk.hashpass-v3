@@ -9,6 +9,7 @@ export type ServiceProps = {
   date_created: number;
   stats: ServiceStats
 }
+export type EncryptedServiceProps = ServiceProps
 
 export type Service = {
   encrypted: false;

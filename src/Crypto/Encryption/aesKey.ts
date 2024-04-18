@@ -1,13 +1,4 @@
-const getCaller = () => {
-  let caller
-  try {
-    caller = window
-  } catch (err) {
-    caller = self
-  }
-  if (!caller) throw new Error('no valid caller')
-  return caller
-}
+import getCrypto from "../getCrypto"
 
 export class aesKey {
   key: CryptoKey;
@@ -17,8 +8,11 @@ export class aesKey {
   }
 
   async encrypt(data: string) {
-    const caller = getCaller()
+    const caller = await getCrypto()
+    if (!caller) throw new Error('no valid caller')
+    console.log('caller', caller)
 
+    // @ts-ignore
     const iv = caller.crypto.getRandomValues(new Uint8Array(12))
     const encrypted = await caller.crypto.subtle.encrypt(
       {
@@ -41,7 +35,8 @@ export class aesKey {
     const iv = data.slice(0, 12)
     const encrypted = data.slice(12)
 
-    const caller = getCaller()
+    const caller = await getCrypto()
+    if (!caller) throw new Error('no valid caller')
 
     const decrypted = await caller.crypto.subtle.decrypt(
       {

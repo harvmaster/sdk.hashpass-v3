@@ -1,5 +1,6 @@
 // generate an aes key from a seed using pbkdf2
 import aesKey from "./aesKey"
+import getCrypto from "../getCrypto"
 
 export const generateAES = async (seed: string): Promise<aesKey> => {
   const password = seed
@@ -8,12 +9,8 @@ export const generateAES = async (seed: string): Promise<aesKey> => {
   const keylen = 32
   const digest = 'sha-512'
 
-  let caller
-  try {
-    caller = window
-  } catch (err) {
-    caller = self
-  }
+  let caller = await getCrypto()
+  if (!caller) throw new Error('no valid caller')
 
   const key = await caller.crypto.subtle.importKey(
     'raw',
