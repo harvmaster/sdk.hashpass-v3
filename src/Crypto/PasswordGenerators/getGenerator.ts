@@ -11,7 +11,7 @@ export const algorithms: Record<string, PasswordGenerator> = {
   base58: generateBase58Password,
 }
 
-export const getGenerator = (algorithm: Uppercase<Algorithm>): PasswordGenerator  => {
+export const getGenerator = <T extends string>(algorithm: Uppercase<T> extends Algorithm ? T : Algorithm): PasswordGenerator  => {
   return algorithms[algorithm.toLocaleLowerCase()];
 }
 
