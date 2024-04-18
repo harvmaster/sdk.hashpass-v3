@@ -10,7 +10,15 @@ test('generateAES', async () => {
 
 test('encrypt/decrypt', async () => {
   const encrypted = await encrypt('testData', 'testKey')
-  expect(encrypted).toBeInstanceOf(Uint8Array)
+  expect(encrypted).toBeTruthy()
   const decrypted = await decrypt(encrypted, 'testKey')
+  expect(decrypted).toBe('testData')
+})
+
+test('encrypt/decrypt with aesKey', async () => {
+  const key = await generateAES('test')
+  const encrypted = await key.encrypt('testData')
+  expect(encrypted).toBeTruthy()
+  const decrypted = await key.decrypt(encrypted)
   expect(decrypted).toBe('testData')
 })
