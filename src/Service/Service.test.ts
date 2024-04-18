@@ -7,7 +7,7 @@ const data: ServiceProps = {
   logo: 'test.png',
   notes: {
     username: 'test',
-    email: '',
+    email: 'test',
     other: 'test'
   },
   encoding: 'base58',
@@ -26,7 +26,7 @@ describe('Service can be created and morhped between encrypted and decrypted', (
     expect(service.domain).toBe('test.com')
     expect(service.logo).toBe('test.png')
     expect(service.notes.username).toBe('test')
-    expect(service.notes.email).toBe('')
+    expect(service.notes.email).toBe('test')
     expect(service.notes.other).toBe('test')
     expect(service.encoding).toBe('base58')
     expect(service.date_created).toBe(data.date_created)
@@ -41,7 +41,7 @@ describe('Service can be created and morhped between encrypted and decrypted', (
     expect(encryptedService.domain).toBe('test.com')
     expect(encryptedService.logo).toBe('test.png')
     expect(encryptedService.notes.username).not.toBe('test')
-    expect(encryptedService.notes.email).toBe('')
+    expect(encryptedService.notes.email).not.toBe('test')
     expect(encryptedService.notes.other).not.toBe('test')
     expect(encryptedService.encoding).toBe('base58')
     expect(encryptedService.date_created).toBe(data.date_created)
@@ -76,5 +76,44 @@ describe('EncryptedService', () => {
       // @ts-ignore
       encryptedService.notes.other = 'new'
     }).toThrow()
+  })
+
+  test('Encrypted Service that is created with undecryptable notes should throw', async () => {
+    const encryptedService = new EncryptedService(data)
+    expect(encryptedService).toBeDefined()
+    expect(encryptedService).toBeInstanceOf(EncryptedService)
+
+    expect(() => encryptedService.decrypt('test')).rejects.toThrow()
+  })
+
+  test('Encrypted Service should throw when trying to decrypt with wrong key', async () => {
+    const service = new Service(data)
+    const encryptedService = await service.encrypt('test')
+
+    expect(encryptedService).toBeDefined()
+    expect(encryptedService).toBeInstanceOf(EncryptedService)
+
+    expect(() => encryptedService.decrypt('wrong')).rejects.toThrow()
+  })
+
+  test('Encrypted Service should throw when a single note is not decryptable', async () => {
+    const service = new Service(data)
+    const encryptedService = await service.encrypt('test')
+
+    expect(encryptedService).toBeDefined()
+    expect(encryptedService).toBeInstanceOf(EncryptedService)
+
+    const notes = encryptedService.toJSON().notes
+    notes.username = 'test'
+    const json = {
+      ...encryptedService.toJSON(),
+      notes
+    }
+
+    const encryptedServiceWithBadNote = new EncryptedService(json)
+    expect(encryptedServiceWithBadNote).toBeDefined()
+    expect(encryptedServiceWithBadNote).toBeInstanceOf(EncryptedService)
+
+    expect(() => encryptedServiceWithBadNote.decrypt('test')).rejects.toThrow()
   })
 })
