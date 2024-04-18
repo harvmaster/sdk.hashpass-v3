@@ -7,6 +7,15 @@ export type RequestOptions = {
 
 export type RequestBody = Record<string, any>
 
+export class RequestError extends Error {
+  response: any;
+
+  constructor(message: string, response: any) {
+    super(message);
+    this.response = response;
+  }
+}
+
 const sendRequest = async <returnType extends Object>(url: string, method: RequestMethod, body: RequestBody = {}, options: RequestOptions): Promise<returnType> => {
   const fetchURL = options.params ? `${url}?${new URLSearchParams(options.params)}` : url;
   const res = await fetch(fetchURL, {
@@ -19,9 +28,9 @@ const sendRequest = async <returnType extends Object>(url: string, method: Reque
     const errorObj = {
       status: res.status,
       statusText: res.statusText,
-      url: res.url,
+      data: await res.json(),
     }
-    throw new Error(`Failed to ${method} ${url}, ${JSON.stringify(errorObj)}`);
+    throw new RequestError(`Failed to ${method} ${url}`, errorObj);
   }
 
   return await res.json() as returnType;

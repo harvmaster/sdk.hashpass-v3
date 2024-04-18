@@ -1,4 +1,4 @@
-import api, { RequestOptions } from '../api'
+import api, { RequestError, RequestOptions } from '../api'
 
 import { DeleteResponse } from '../types'
 
@@ -15,16 +15,16 @@ export const deleteUser = async (access_token?: string) => {
   } catch (err: any) {
     console.log(err)
     if (err?.response?.status === 400) {
-      throw new Error(err.response.data.error)
+      throw new RequestError(err.response.data.error, err.response)
     }
     if (err?.response?.status === 401) {
-      throw new Error(err.response.data.error)
+      throw new RequestError(err.response.data.error, err.response)
     }
     if (err?.response?.status === 404) {
-      throw new Error(err.response.data.error)
+      throw new RequestError(err.response.data.error, err.response)
     }
 
-    throw new Error(err)
+    throw err
   }
 }
 

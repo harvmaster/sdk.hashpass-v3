@@ -1,5 +1,5 @@
 import AuthToken from "../Auth/AuthToken";
-import api from "../api";
+import api, { RequestError } from "../api";
 
 import { UserAuthResponse } from "../types";
 
@@ -27,13 +27,13 @@ export const createUser = async (username: string, password: string) => {
   } catch (err: any) {
     console.log(err)
     if (err?.response?.status === 400) {
-      throw new Error(err.response.data.error)
+      throw new RequestError(err.response.data.error, err.response)
     }
     if (err?.response?.status === 409) {
-      throw new Error(err.response.data.error)
+      throw new RequestError(err.response.data.error, err.response)
     }
 
-    throw new Error(err)
+    throw err
   }
 }
 

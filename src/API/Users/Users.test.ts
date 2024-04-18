@@ -40,6 +40,15 @@ describe('Users', () => {
     expect(second_user.access_token).toBeTruthy()
   })
 
+  test('should not create a user with the same username', async () => {
+    try {
+      await createUser(userData.username, userData.password)
+    } catch (err: any) {
+      expect(err).toBeTruthy()
+      expect(err.response.status).toBe(409)
+    }
+  })
+  
   test('should delete a user', async () => {
     const user = await login(userData.username, userData.password)
 
@@ -48,8 +57,43 @@ describe('Users', () => {
     expect(res.status).toBe('success')
   })
 
+  test('should not login a user with wrong password', async () => {
+    try {
+      await login(userData.username, 'wrongpassword')
+    } catch (err: any) {
+      expect(err).toBeTruthy()
+      expect(err.response.status).toBe(401)
+    }
+  })
 
+  test('should not login a user with wrong username', async () => {
+    try {
+      await login('wrongusername', userData.password)
+    } catch (err: any) {
+      console.log(err)
+      expect(err).toBeTruthy()
 
+      expect(err.response.status).toBe(401)
+    }
+  })
+
+  test('should not get a user with wrong access token', async () => {
+    try {
+      await getUser('wrongaccesstoken')
+    } catch (err: any) {
+      expect(err).toBeTruthy()
+      expect(err.response.status).toBe(400)
+    }
+  })
+
+  test('should not delete a user with wrong access token', async () => {
+    try {
+      await deleteUser('wrongaccesstoken')
+    } catch (err: any) {
+      expect(err).toBeTruthy()
+      expect(err.response.status).toBe(400)
+    }
+  })
 
 })
 
