@@ -1,3 +1,8 @@
+
+/**
+ * gets the correct crypto object for your environment.
+ * @returns Crypto
+ */
 const getCrypto = async () => {
   let crypto
   try {
