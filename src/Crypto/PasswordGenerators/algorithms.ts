@@ -1,0 +1,1 @@
+export default [ 'legacy', 'hex', 'base58' ]
