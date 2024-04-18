@@ -9,9 +9,7 @@ const getCrypto = async () => {
       if (!crypto) {
         const nodeCrypto = await import('crypto')
         if (!nodeCrypto.webcrypto) throw new Error('no webcrypto')
-        // nodeCrypto.webcrypto.getRandomValues = nodeCrypto.getRandomValues
         crypto = {
-          // getRandomValues: nodeCrypto.getRandomValues,
           crypto: nodeCrypto.webcrypto
         }
       }
