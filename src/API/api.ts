@@ -31,7 +31,7 @@ class API {
   headers: Record<string, string> = {
     'Content-Type': 'application/json',
   }
-  baseURL: string = ''
+  baseURL: string = 'https://api.hashpass.mc.hzuccon.com'
 
   async get<returnType extends Object>(url: string, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...this.headers, ...options.headers, }

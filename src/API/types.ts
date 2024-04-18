@@ -36,7 +36,7 @@ export interface ServiceListResponse {
   services: EncryptedServiceProps[]
 }
 
-export interface ServiceDeleteResponse {
+export interface DeleteResponse {
   status: 'success'
 }
 
