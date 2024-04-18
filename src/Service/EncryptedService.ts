@@ -30,10 +30,12 @@ class EncryptedService implements EncryptedServiceI {
     this.encoding = service.encoding;
     this.date_created = service.date_created;
     this.stats = service.stats;
+
+    Object.freeze(this.#notes)
   }
 
   get notes() {
-    return { ...this.#notes }
+    return this.#notes
   }
 
   async decrypt(key: string): Promise<Service> {
