@@ -17,7 +17,8 @@ export const login = async (username: string, password: string) => {
       password
     })
 
-    const authToken = new AuthToken(data)
+    const { access_token, refresh_token: { token: refresh_token} } = data
+    const authToken = new AuthToken({ access_token, refresh_token })
 
     return {
       user: data.user,

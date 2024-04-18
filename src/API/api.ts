@@ -7,12 +7,12 @@ export type RequestOptions = {
 
 export type RequestBody = Record<string, any>
 
-const sendRequest = async <returnType extends Object>(url: string, method: RequestMethod, body: RequestBody, options: RequestOptions): Promise<returnType> => {
+const sendRequest = async <returnType extends Object>(url: string, method: RequestMethod, body: RequestBody = {}, options: RequestOptions): Promise<returnType> => {
   const fetchURL = options.params ? `${url}?${new URLSearchParams(options.params)}` : url;
   const res = await fetch(fetchURL, {
     method,
     headers: options.headers,
-    body: JSON.stringify(body),
+    body: Object.keys(body).length ? JSON.stringify(body) : undefined,
   })
 
   if (!res.ok) {
@@ -21,7 +21,7 @@ const sendRequest = async <returnType extends Object>(url: string, method: Reque
       statusText: res.statusText,
       url: res.url,
     }
-    throw new Error(`Failed to ${method} ${url}, ${errorObj}`);
+    throw new Error(`Failed to ${method} ${url}, ${JSON.stringify(errorObj)}`);
   }
 
   return await res.json() as returnType;
@@ -33,24 +33,28 @@ class API {
   }
   baseURL: string = 'https://api.hashpass.mc.hzuccon.com'
 
+  buildURL (url: string) {
+    return `${this.baseURL}${url}`
+  }
+
   async get<returnType extends Object>(url: string, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...this.headers, ...options.headers, }
-    return await sendRequest<returnType>(url, 'GET', {}, options);
+    return await sendRequest<returnType>(this.buildURL(url), 'GET', undefined, options);
   }
 
   async post<returnType extends Object>(url: string, body: RequestBody = {}, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...this.headers, ...options.headers, }
-    return await sendRequest<returnType>(url, 'POST', body, options);
+    return await sendRequest<returnType>(this.buildURL(url), 'POST', body, options);
   }
 
   async put<returnType extends Object>(url: string, body: RequestBody = {}, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...this.headers, ...options.headers, }
-    return await sendRequest<returnType>(url, 'PUT', body, options);
+    return await sendRequest<returnType>(this.buildURL(url), 'PUT', body, options);
   }
 
   async delete<returnType extends Object>(url: string, options: RequestOptions = {}): Promise<returnType> {
     options.headers = { ...this.headers, ...options.headers, }
-    return await sendRequest<returnType>(url, 'DELETE', {}, options);
+    return await sendRequest<returnType>(this.buildURL(url), 'DELETE', undefined, options);
   }
 
   setBaseURL (url: string) {

@@ -4,7 +4,7 @@ import { AccessTokenResponse } from "../types";
 
 export const refreshAccessToken = async (refresh_token: string) => {
   try {
-    const data = await api.post<AccessTokenResponse>('/user/refreshAccessToken', {
+    const data = await api.post<AccessTokenResponse>('/user/refresh', {
       refresh_token
     })
 

@@ -8,9 +8,18 @@ export interface User {
   create_date: Date;
 }
 
+export interface UserResponse {
+  user: User;
+}
+
 export interface UserAuthResponse {
   user: User;
-  refresh_token: string;
+  refresh_token: {
+    token: string,
+    user: string,
+    revoked: boolean,
+    create_date: string
+  };
   access_token: string;
 }
 

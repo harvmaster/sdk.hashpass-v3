@@ -1,13 +1,13 @@
 import api, { RequestOptions } from "../api";
 
-import { User } from "../types";
+import { UserResponse } from "../types";
 
 export const getUser = async (access_token?: string ) => {
   const headers: RequestOptions['headers'] = {}
   if (access_token) headers['Authorization'] = `Bearer ${access_token}`
 
   try {
-    const data = await api.get<User>('/user', {
+    const data = await api.get<UserResponse>('/user', {
       headers
     })
 
