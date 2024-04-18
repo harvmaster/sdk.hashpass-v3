@@ -9,7 +9,7 @@ class EncryptedService implements EncryptedServiceI {
   name: string;
   domain?: string;
   logo?: string;
-  readonly notes: {
+  readonly #notes: {
     readonly username?: string;
     readonly email?: string;
     readonly other?: string;
@@ -26,10 +26,14 @@ class EncryptedService implements EncryptedServiceI {
     this.name = service.name;
     this.domain = service.domain;
     this.logo = service.logo;
-    this.notes = service.notes;
+    this.#notes = service.notes;
     this.encoding = service.encoding;
     this.date_created = service.date_created;
     this.stats = service.stats;
+  }
+
+  get notes() {
+    return { ...this.#notes }
   }
 
   async decrypt(key: string): Promise<Service> {
