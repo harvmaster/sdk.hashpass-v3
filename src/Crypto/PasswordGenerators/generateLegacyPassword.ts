@@ -7,9 +7,10 @@ export const generateLegacyPassword = (secret: string, service: string) => {
 
   let combined = secret + "-" + service;
 
-  for (let i = 0; i < 65536; i++) {
+  for (let i = 0; i < 65535; i++) {
     combined = sha256.digest(combined) as unknown as string;
   }
+  combined = sha256(combined)
 
   combined = combined.slice(0, 16)
   combined = 'z' + combined.slice(1, 16)
