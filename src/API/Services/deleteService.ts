@@ -1,10 +1,10 @@
 import api from '../api'
 
-import { ServiceDeleteResponse } from '../types'
+import { DeleteResponse } from '../types'
 
 export const deleteService = async (name: string) => {
   try {
-    const data = await api.post<ServiceDeleteResponse>('/service/delete', {
+    const data = await api.post<DeleteResponse>('/service/delete', {
       name
     })
 
