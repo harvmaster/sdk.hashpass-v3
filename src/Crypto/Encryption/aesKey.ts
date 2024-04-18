@@ -10,7 +10,6 @@ export class aesKey {
   async encrypt(data: string) {
     const caller = await getCrypto()
     if (!caller) throw new Error('no valid caller')
-    console.log('caller', caller)
 
     // @ts-ignore
     const iv = caller.crypto.getRandomValues(new Uint8Array(12))
