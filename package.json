@@ -4,7 +4,8 @@
   "description": "An sdk for hashpass. It includes the service worker, password generators, api wrappers and encryption",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "docs": "typedoc --out docs src"
   },
   "keywords": [
     "hashpass",

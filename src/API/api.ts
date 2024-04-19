@@ -16,7 +16,7 @@ export class RequestError extends Error {
   }
 }
 
-const sendRequest = async <returnType extends Object>(url: string, method: RequestMethod, body: RequestBody = {}, options: RequestOptions): Promise<returnType> => {
+export const sendRequest = async <returnType extends Object>(url: string, method: RequestMethod, body: RequestBody = {}, options: RequestOptions): Promise<returnType> => {
   const fetchURL = options.params ? `${url}?${new URLSearchParams(options.params)}` : url;
   const res = await fetch(fetchURL, {
     method,
@@ -36,7 +36,7 @@ const sendRequest = async <returnType extends Object>(url: string, method: Reque
   return await res.json() as returnType;
 }
 
-class API {
+export class API {
   headers: Record<string, string> = {
     'Content-Type': 'application/json',
   }

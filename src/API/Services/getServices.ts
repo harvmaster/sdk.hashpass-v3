@@ -3,7 +3,7 @@ import api from '../api'
 import EncryptedService from '../../Service/EncryptedService'
 import { ServiceListResponse } from '../types'
 
-interface GetServicesOptions {
+export interface GetServicesOptions {
   decrypt?: boolean
 }
 

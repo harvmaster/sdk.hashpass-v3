@@ -1,31 +1,48 @@
-import type { HashpassWorker } from './ServiceWorker/types'
-import AuthToken from './API/Auth/AuthToken'
+// import type { HashpassWorker } from './ServiceWorker/types'
+// import AuthToken from './API/Auth/AuthToken'
 
 import * as Crypto from './Crypto'
 import * as API from './API'
+import * as Service from './Service'
 
-class Hashpass {
-  #serviceWorker?: HashpassWorker;
-  #AuthToken?: AuthToken;
-  Crypto = Crypto;
-  API = API;
+export { Crypto, API, Service }
 
-  constructor() {
-    this.#serviceWorker = undefined;
-  }
+export default {
+  Crypto,
+  API,
+  Service
+}
 
-  get isUsingserviceWorker () {
-    return !!this.#serviceWorker;
-  }
+// class Hashpass {
+//   #serviceWorker?: HashpassWorker;
+//   #AuthToken?: AuthToken;
+//   Crypto = Crypto;
+//   API = API;
 
-  setserviceWorker (worker: HashpassWorker) {
-    this.#serviceWorker = worker;
-  }
+//   constructor() {
+//     this.#serviceWorker = undefined;
+//   }
 
-  get serviceWorker () {
-    return this.#serviceWorker;
-  }
+//   get isUsingserviceWorker () {
+//     return !!this.#serviceWorker;
+//   }
+
+//   setserviceWorker (worker: HashpassWorker) {
+//     this.#serviceWorker = worker;
+//   }
+
+//   get serviceWorker () {
+//     return this.#serviceWorker;
+//   }
 
   
 
-}
+// }
+
+// export default Hashpass
+
+// export { Hashpass }
+
+// export * as Crypto from './Crypto'
+// export * as API from './API'
+// export * as Service from './Service'

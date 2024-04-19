@@ -5,3 +5,4 @@ export * as Users from './Users'
 export * as Services from './Services'
 export * as Logo from './Logo'
 
+export { default as AuthToken } from './Auth/AuthToken'

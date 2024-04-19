@@ -1,12 +1,12 @@
 import { jwtDecode } from "jwt-decode";
 import api from '../api';
 
-interface AuthTokenProps {
+export interface AuthTokenProps {
   access_token?: string;
   refresh_token: string;
 }
 
-type RefreshAccessTokenResponse = {
+export type RefreshAccessTokenResponse = {
   access_token: string;
 }
 
