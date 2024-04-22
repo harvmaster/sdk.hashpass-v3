@@ -10,7 +10,7 @@ export const refreshAccessToken = async (refresh_token: string) => {
 
     return data
   } catch (err: any) {
-    console.log(err)
+    // console.log(err)
     if (err?.response?.status === 400) {
       throw new RequestError(err.response.data.error, err.response)
     }

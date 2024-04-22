@@ -25,7 +25,7 @@ export const createUser = async (username: string, password: string) => {
       authToken
     }
   } catch (err: any) {
-    console.log(err)
+    // console.log(err) 
     if (err?.response?.status === 400) {
       throw new RequestError(err.response.data.error, err.response)
     }
