@@ -70,9 +70,7 @@ describe('Users', () => {
     try {
       await login('wrongusername', userData.password)
     } catch (err: any) {
-      console.log(err)
       expect(err).toBeTruthy()
-
       expect(err.response.status).toBe(401)
     }
   })

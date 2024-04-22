@@ -49,15 +49,25 @@ export interface DeleteResponse {
   status: 'success'
 }
 
-export interface LogoResponse {
-  logos: {
-    src: string;
-    size: {
-      width: number;
-      height: number;
-    }
-  }[]
-}
+// export interface LogoResponse {
+//   logos: {
+//     src: string;
+//     size: {
+//       width: number;
+//       height: number;
+//     }
+//   }[]
+// }
+
+// export type LogoResponse = string
+
+export type LogoResponse = {
+  src: string;
+  size: {
+    width: number;
+    height: number;
+  }
+}[]
 
 export interface DomainRecommendationResponse {
   domains: string[]

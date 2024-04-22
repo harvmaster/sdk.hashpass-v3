@@ -2,9 +2,15 @@ import api from '../api'
 
 import { DomainRecommendationResponse } from '../types'
 
-export const getDomainRecommendation = async (domain: string) => {
+export const getDomainRecommendation = async (domain: string, access_token?: string) => {
   try {
-    const data = await api.get<DomainRecommendationResponse>(`/logo/domain?domain=${domain}`)
+    const headers: any = {}
+    if (access_token) headers['Authorization'] = `Bearer ${access_token}`
+    const data = await api.get<DomainRecommendationResponse>(`/logo/domain?domain=${domain}`, {
+      headers
+    })
+
+    console.log(data)
 
     return data.domains
   } catch (err: any) {
